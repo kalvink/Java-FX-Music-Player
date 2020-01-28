@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="236.0" prefWidth="347.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem id="openfile" fx:id="open" mnemonicParsing="false" onAction="#openSoundFile" text="Open…" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem id="quit" fx:id="quit" mnemonicParsing="false" onAction="#exitApp" text="Quit" />
+          </items>
+        </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+              <items>
+                <MenuItem id="about" fx:id="about" mnemonicParsing="false" onAction="#openAbout" text="About" />
+              </items>
+            </Menu>
+      </menus>
+    </MenuBar>
+      <AnchorPane prefHeight="214.0" prefWidth="337.0">
+         <children>
+            <Button layoutX="14.0" layoutY="105.0" mnemonicParsing="false" onMouseClicked="#prevTrack" prefHeight="47.0" prefWidth="96.0" text="⏮" />
+            <Button layoutX="127.0" layoutY="105.0" minWidth="51.0" mnemonicParsing="false" onMouseClicked="#playPause" prefHeight="47.0" prefWidth="96.0" text="▶" />
+            <Slider layoutX="109.0" layoutY="164.0" prefHeight="24.0" prefWidth="131.0" />
+            <Button layoutX="240.0" layoutY="105.0" mnemonicParsing="false" onMouseClicked="#nextTrack" prefHeight="47.0" prefWidth="96.0" text="⏭" />
+            <ProgressBar layoutX="6.0" layoutY="44.0" prefHeight="24.0" prefWidth="337.0" progress="0.0" />
+         </children>
+      </AnchorPane>
+  </children>
+</VBox>
