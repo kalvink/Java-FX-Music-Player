@@ -20,6 +20,7 @@ import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
@@ -38,6 +39,11 @@ public class SampleController {
 	Slider volumeSlider;
 	@FXML
 	Text textField;
+	@FXML
+	Button playButton;
+
+	boolean isPlaying = false;
+	boolean loadedSong = false;
 
 	@FXML
 	public void openFile(ActionEvent e) {
@@ -53,6 +59,10 @@ public class SampleController {
 			textField.setText(file.getName());
 			URI fpath = file.toURI();
 			System.out.println(fpath);
+			// stops current song so it doesn't play two songs at same time
+			if (isPlaying) {
+				mediaPlayer.stop();
+			}
 			playSong(fpath);
 
 		} catch (Exception ex) {
@@ -63,6 +73,7 @@ public class SampleController {
 		}
 	}
 
+	// play song
 	public void playSong(URI fpath) {
 		Media media = null;
 		try {
@@ -73,7 +84,10 @@ public class SampleController {
 		}
 		mediaPlayer = new MediaPlayer(media);
 		mediaPlayer.setAutoPlay(true);
+		isPlaying = true;
+		loadedSong = true;
 		changeVolume();
+		changePlayBTN();
 	}
 
 	public void changeVolume() {
@@ -85,6 +99,10 @@ public class SampleController {
 			}
 
 		});
+	}
+
+	public void changePlayBTN() {
+		playButton.setText("⏸");
 	}
 
 	@FXML
@@ -122,6 +140,7 @@ public class SampleController {
 
 	@FXML
 	public void prevTrack(ActionEvent e) {
+
 	}
 
 	@FXML
@@ -131,6 +150,16 @@ public class SampleController {
 	@FXML
 	public void playPause(ActionEvent e) {
 
-	}
+		if (isPlaying) {
+			playButton.setText("⏵");
+			mediaPlayer.pause();
+			isPlaying = false;
+		} else if (!isPlaying && loadedSong) {
+			playButton.setText("⏸");
+			mediaPlayer.play();
+			isPlaying = true;
 
+		}
+
+	}
 }
