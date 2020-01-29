@@ -14,11 +14,14 @@ import java.nio.file.Paths;
 import com.sun.javafx.scene.control.skin.Utils;
 
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
@@ -31,6 +34,8 @@ import javafx.stage.Window;
 
 public class SampleController {
 	MediaPlayer mediaPlayer;
+	@FXML
+	Slider volumeSlider;
 
 	@FXML
 	public void openFile(ActionEvent e) {
@@ -65,9 +70,19 @@ public class SampleController {
 		}
 		mediaPlayer = new MediaPlayer(media);
 		mediaPlayer.setAutoPlay(true);
-
+		changeVolume();
 	}
 
+	public void changeVolume() {
+		volumeSlider.setValue(mediaPlayer.getVolume() * 100);
+		volumeSlider.valueProperty().addListener(new InvalidationListener() {
+
+			public void invalidated(Observable observable) {
+				mediaPlayer.setVolume(volumeSlider.getValue() / 100);
+			}
+
+		});
+	}
 
 	@FXML
 	public void exitApp(ActionEvent e) {
@@ -76,35 +91,31 @@ public class SampleController {
 
 	@FXML
 	public void openAbout(ActionEvent e) {
-        Hyperlink linkedin = new Hyperlink("https://www.linkedin.com/in/kalvinkao/");
-        Hyperlink github = new Hyperlink("https://github.com/kalvink");
+		Hyperlink linkedin = new Hyperlink("https://www.linkedin.com/in/kalvinkao/");
+		Hyperlink github = new Hyperlink("https://github.com/kalvink");
 
-        final Stage dialog = new Stage();
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        Window primaryStage = null;
+		final Stage dialog = new Stage();
+		dialog.initModality(Modality.APPLICATION_MODAL);
+		Window primaryStage = null;
 		dialog.initOwner(primaryStage);
-        VBox dialogVbox = new VBox(20);
-        dialogVbox.getChildren().add(new Text(" Music Player by Kalvin Kao"));
-        dialogVbox.getChildren().add(linkedin);
-        dialogVbox.getChildren().add(github);
-        Scene dialogScene = new Scene(dialogVbox, 300, 100);
-        dialog.setResizable(false);
-        dialog.setTitle("About");
-        dialog.setScene(dialogScene);
-        dialog.show();
+		VBox dialogVbox = new VBox(20);
+		dialogVbox.getChildren().add(new Text(" Music Player by Kalvin Kao"));
+		dialogVbox.getChildren().add(linkedin);
+		dialogVbox.getChildren().add(github);
+		Scene dialogScene = new Scene(dialogVbox, 300, 100);
+		dialog.setResizable(false);
+		dialog.setTitle("About");
+		dialog.setScene(dialogScene);
+		dialog.show();
 
-        linkedin.setOnAction((ActionEvent ex) -> {
+		linkedin.setOnAction((ActionEvent ex) -> {
 
+		});
 
-
-        });
-
-        github.setOnAction((ActionEvent ex) -> {
-            System.out.println("This link is clicked");
-        });
-        }
-
-
+		github.setOnAction((ActionEvent ex) -> {
+			System.out.println("This link is clicked");
+		});
+	}
 
 	@FXML
 	public void prevTrack(ActionEvent e) {
