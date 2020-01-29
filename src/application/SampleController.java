@@ -39,6 +39,7 @@ public class SampleController extends Thread {
 	Text totalDuration;
 
 	boolean isPlaying = false;
+	boolean isPaused = false;
 	boolean loadedSong = false;
 	private Duration duration;
 	Duration startDuration;
@@ -159,8 +160,12 @@ public class SampleController extends Thread {
 	@FXML
 	public void prevTrack() {
 		try {
-			mediaPlayer.stop();
-			mediaPlayer.play();
+			if (!isPaused) {
+				mediaPlayer.stop();
+				mediaPlayer.play();
+			} else if (isPaused) {
+				mediaPlayer.stop();
+			}
 		} catch (Exception ex) {
 		}
 	}
@@ -194,10 +199,12 @@ public class SampleController extends Thread {
 			playButton.setText("⏵");
 			mediaPlayer.pause();
 			isPlaying = false;
+			isPaused = true;
 		} else if (!isPlaying && loadedSong) {
 			playButton.setText("⏸");
 			mediaPlayer.play();
 			isPlaying = true;
+			isPaused = false;
 
 		}
 
