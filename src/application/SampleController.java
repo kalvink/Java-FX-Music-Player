@@ -1,18 +1,9 @@
 package application;
 
-import java.applet.Applet;
-import java.awt.Desktop;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Paths;
-import java.util.concurrent.TimeUnit;
-
-import com.sun.javafx.scene.control.skin.Utils;
 
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
@@ -25,7 +16,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
@@ -51,6 +41,7 @@ public class SampleController extends Thread {
 	boolean isPlaying = false;
 	boolean loadedSong = false;
 	private Duration duration;
+	Duration startDuration;
 
 	// Add time slider
 	@FXML
@@ -100,12 +91,11 @@ public class SampleController extends Thread {
 		changeVolume();
 		changePlayBTN();
 
-		//display total duration
+		// display total duration
 		mediaPlayer.setOnReady(new Runnable() {
 
 			@Override
 			public void run() {
-
 				System.out.println("Duration: " + mediaPlayer.getTotalDuration());
 				totalDuration.setText(formatDuration(mediaPlayer.getTotalDuration()));
 
@@ -167,9 +157,12 @@ public class SampleController extends Thread {
 	}
 
 	@FXML
-	public void prevTrack(ActionEvent e) {
-		// mediaPlayer.
-
+	public void prevTrack() {
+		try {
+			mediaPlayer.stop();
+			mediaPlayer.play();
+		} catch (Exception ex) {
+		}
 	}
 
 	@FXML
@@ -180,16 +173,13 @@ public class SampleController extends Thread {
 	public void seekBar() {
 
 		duration = mediaPlayer.getCurrentTime();
-		/*
-		 * String str = duration.toString(); str = str.replaceAll("[^0-9.]",
-		 * ""); System.out.println(str);
-		 */
 		String t = formatDuration(duration);
 		System.out.println(t);
 		currentDuration.setText(t);
 
 	}
 
+	// Format duration into HH:MM:SS format
 	public static String formatDuration(Duration duration) {
 		long seconds = (long) duration.toSeconds();
 		long absSeconds = Math.abs(seconds);
