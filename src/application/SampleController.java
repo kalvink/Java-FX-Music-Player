@@ -10,6 +10,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.concurrent.TimeUnit;
 
 import com.sun.javafx.scene.control.skin.Utils;
 
@@ -32,8 +33,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.util.Duration;
 
-public class SampleController {
+public class SampleController extends Thread {
 	MediaPlayer mediaPlayer;
 	@FXML
 	Slider volumeSlider;
@@ -41,9 +43,18 @@ public class SampleController {
 	Text textField;
 	@FXML
 	Button playButton;
+	@FXML
+	Text currentDuration;
+	@FXML
+	Text totalDuration;
 
 	boolean isPlaying = false;
 	boolean loadedSong = false;
+	private Duration duration;
+
+	// Add time slider
+	@FXML
+	Slider seekBar;
 
 	@FXML
 	public void openFile(ActionEvent e) {
@@ -88,17 +99,34 @@ public class SampleController {
 		loadedSong = true;
 		changeVolume();
 		changePlayBTN();
+
+		//display total duration
+		mediaPlayer.setOnReady(new Runnable() {
+
+			@Override
+			public void run() {
+
+				System.out.println("Duration: " + mediaPlayer.getTotalDuration());
+				totalDuration.setText(formatDuration(mediaPlayer.getTotalDuration()));
+
+			}
+		});
 	}
 
 	public void changeVolume() {
-		volumeSlider.setValue(mediaPlayer.getVolume() * 100);
-		volumeSlider.valueProperty().addListener(new InvalidationListener() {
+		try {
 
-			public void invalidated(Observable observable) {
-				mediaPlayer.setVolume(volumeSlider.getValue() / 100);
-			}
+			volumeSlider.setValue(mediaPlayer.getVolume() * 100);
+			volumeSlider.valueProperty().addListener(new InvalidationListener() {
 
-		});
+				public void invalidated(Observable observable) {
+					mediaPlayer.setVolume(volumeSlider.getValue() / 100);
+				}
+
+			});
+		} catch (Exception ex) {
+		}
+
 	}
 
 	public void changePlayBTN() {
@@ -140,11 +168,33 @@ public class SampleController {
 
 	@FXML
 	public void prevTrack(ActionEvent e) {
+		// mediaPlayer.
 
 	}
 
 	@FXML
 	public void nextTrack(ActionEvent e) {
+	}
+
+	@FXML
+	public void seekBar() {
+
+		duration = mediaPlayer.getCurrentTime();
+		/*
+		 * String str = duration.toString(); str = str.replaceAll("[^0-9.]",
+		 * ""); System.out.println(str);
+		 */
+		String t = formatDuration(duration);
+		System.out.println(t);
+		currentDuration.setText(t);
+
+	}
+
+	public static String formatDuration(Duration duration) {
+		long seconds = (long) duration.toSeconds();
+		long absSeconds = Math.abs(seconds);
+		String positive = String.format("%d:%02d:%02d", absSeconds / 3600, (absSeconds % 3600) / 60, absSeconds % 60);
+		return seconds < 0 ? "-" + positive : positive;
 	}
 
 	@FXML
@@ -162,4 +212,5 @@ public class SampleController {
 		}
 
 	}
+
 }
