@@ -1,18 +1,23 @@
 package application;
 
+import java.applet.Applet;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
 import java.nio.file.Paths;
 
 import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 
 public class SampleController {
+	MediaPlayer mediaPlayer;
 
 	@FXML
 	public void openFile(ActionEvent e) {
@@ -25,20 +30,27 @@ public class SampleController {
 			fileChooser.setTitle("Open Audio File");
 			File file = fileChooser.showOpenDialog(Main.publicStage);
 			System.out.println(file);
-			String fpath = file.toString();
+			URI fpath = file.toURI();
 			System.out.println(fpath);
+			playSong(fpath);
+
 		} catch (Exception ex) {
 			System.out.println("Something went wrong.");
-			// playSong(fpath);
 		} finally {
 			System.out.println("The 'try catch' is finished.");
+
 		}
 	}
 
-	public void playSong(String fpath) {
-
-		Media media = new Media(fpath);
-		MediaPlayer mediaPlayer = new MediaPlayer(media);
+	public void playSong(URI fpath) {
+		Media media = null;
+		try {
+			media = new Media(fpath.toURL().toExternalForm());
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		mediaPlayer = new MediaPlayer(media);
 		mediaPlayer.setAutoPlay(true);
 
 	}
