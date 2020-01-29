@@ -37,7 +37,7 @@
             <Slider id="volumeSlider" fx:id="volumeSlider" layoutX="109.0" layoutY="164.0" onDragDetected="#changeVolume" onDragDone="#changeVolume" prefHeight="24.0" prefWidth="131.0" value="100.0" />
             <Button layoutX="240.0" layoutY="105.0" mnemonicParsing="false" onMouseClicked="#nextTrack" prefHeight="47.0" prefWidth="96.0" text="⏭" />
             <Slider layoutX="14.0" layoutY="63.0" prefHeight="24.0" prefWidth="320.0" />
-            <Text layoutX="51.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="248.99999974668026" />
+            <Text id="textField" fx:id="textField" layoutX="51.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="248.99999974668026" />
             <ImageView fitHeight="24.0" fitWidth="16.0" layoutX="242.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../imgs/baseline_volume_up_black_18dp.png" />

@@ -36,6 +36,8 @@ public class SampleController {
 	MediaPlayer mediaPlayer;
 	@FXML
 	Slider volumeSlider;
+	@FXML
+	Text textField;
 
 	@FXML
 	public void openFile(ActionEvent e) {
@@ -48,6 +50,7 @@ public class SampleController {
 			fileChooser.setTitle("Open Audio File");
 			File file = fileChooser.showOpenDialog(Main.publicStage);
 			System.out.println(file);
+			textField.setText(file.getName());
 			URI fpath = file.toURI();
 			System.out.println(fpath);
 			playSong(fpath);
