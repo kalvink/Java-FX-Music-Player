@@ -4,6 +4,7 @@ import java.io.File;
 
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.util.List;
 
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
@@ -38,11 +39,14 @@ public class SampleController extends Thread {
 	@FXML
 	Text totalDuration;
 
+	int currentTrackNumber = 0;
+	int totalSongs = 0;
+
 	boolean isPlaying = false;
 	boolean isPaused = false;
 	boolean loadedSong = false;
 	private Duration duration;
-
+	List<File> file;
 	String t;
 	// Add time slider
 	@FXML
@@ -57,10 +61,19 @@ public class SampleController extends Thread {
 					"*.aac");
 			fileChooser.getExtensionFilters().add(extFilter);
 			fileChooser.setTitle("Open Audio File");
-			File file = fileChooser.showOpenDialog(Main.publicStage);
+			// File file = fileChooser.showOpenDialog(Main.publicStage);
+			file = fileChooser.showOpenMultipleDialog(Main.publicStage);
+			{
+				if (file != null) {
+					for (File f : file) {
+						// open files
+						totalSongs++;
+					}
+				}
+			}
 			System.out.println(file);
-			textField.setText(file.getName());
-			URI fpath = file.toURI();
+			textField.setText(file.get(currentTrackNumber).getName());
+			URI fpath = file.get(currentTrackNumber).toURI();
 			System.out.println(fpath);
 			// stops current song so it doesn't play two songs at same time
 			if (isPlaying) {
@@ -172,6 +185,23 @@ public class SampleController extends Thread {
 
 	@FXML
 	public void nextTrack() {
+		if (loadedSong) {
+			mediaPlayer.stop();
+			isPlaying = false;
+
+			System.out.println("currentTrackNumber:" + currentTrackNumber);
+			// System.out.println("totalSongs:" + totalSongs);
+			if (currentTrackNumber == totalSongs - 1) {
+				textField.setText(file.get(currentTrackNumber).getName());
+				playSong(file.get(currentTrackNumber).toURI());
+				currentTrackNumber = 0;
+			} else {
+				currentTrackNumber++;
+				textField.setText(file.get(currentTrackNumber).getName());
+				playSong(file.get(currentTrackNumber).toURI());
+			}
+
+		}
 	}
 
 	@FXML
@@ -210,10 +240,12 @@ public class SampleController extends Thread {
 			currentDuration.setText(formatDuration(duration));
 
 			mediaPlayer.setOnEndOfMedia(() -> {
-				mediaPlayer.seek(Duration.ZERO);
-				playButton.setText("⏵");
-				isPlaying = false;
-				mediaPlayer.stop();
+				nextTrack();
+				/*
+				 *
+				 * mediaPlayer.seek(Duration.ZERO); playButton.setText("⏵");
+				 * isPlaying = false; mediaPlayer.stop();
+				 */
 
 			});
 
