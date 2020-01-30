@@ -71,10 +71,10 @@ public class SampleController extends Thread {
 					}
 				}
 			}
-			System.out.println(file);
+			// System.out.println(file);
 			textField.setText(file.get(currentTrackNumber).getName());
 			URI fpath = file.get(currentTrackNumber).toURI();
-			System.out.println(fpath);
+			// System.out.println(fpath);
 			// stops current song so it doesn't play two songs at same time
 			if (isPlaying) {
 				mediaPlayer.stop();
@@ -100,7 +100,7 @@ public class SampleController extends Thread {
 		}
 		seekBar.setDisable(false);
 		mediaPlayer = new MediaPlayer(media);
-		mediaPlayer.setAutoPlay(true);
+		mediaPlayer.play();
 		isPlaying = true;
 		loadedSong = true;
 		changeVolume();
@@ -171,15 +171,30 @@ public class SampleController extends Thread {
 
 	@FXML
 	public void prevTrack() {
-		try {
-			if (!isPaused) {
+		if (loadedSong) {
+			if (mediaPlayer.getCurrentTime() == mediaPlayer.getStartTime()) {
+
+				mediaPlayer.seek(duration.ZERO);
+
+				// System.out.println("totalSongs:" + totalSongs);
+				if (currentTrackNumber == 0) {
+					currentTrackNumber = totalSongs - 1;
+				} else {
+					currentTrackNumber--;
+				}
+				textField.setText(file.get(currentTrackNumber).getName());
+				playSong(file.get(currentTrackNumber).toURI());
+				System.out.println("currentTrackNumber:" + currentTrackNumber);
+				System.out.println("===================================");
+
+			} else if (!isPaused) {
 				mediaPlayer.stop();
 				mediaPlayer.play();
 				seekBar();
 			} else if (isPaused) {
 				mediaPlayer.stop();
 			}
-		} catch (Exception ex) {
+
 		}
 	}
 
@@ -188,19 +203,18 @@ public class SampleController extends Thread {
 		if (loadedSong) {
 			mediaPlayer.stop();
 			isPlaying = false;
+			mediaPlayer.seek(duration.ZERO);
 
-			System.out.println("currentTrackNumber:" + currentTrackNumber);
 			// System.out.println("totalSongs:" + totalSongs);
 			if (currentTrackNumber == totalSongs - 1) {
-				textField.setText(file.get(currentTrackNumber).getName());
-				playSong(file.get(currentTrackNumber).toURI());
 				currentTrackNumber = 0;
 			} else {
 				currentTrackNumber++;
-				textField.setText(file.get(currentTrackNumber).getName());
-				playSong(file.get(currentTrackNumber).toURI());
 			}
-
+			textField.setText(file.get(currentTrackNumber).getName());
+			playSong(file.get(currentTrackNumber).toURI());
+			System.out.println("currentTrackNumber:" + currentTrackNumber);
+			System.out.println("===================================");
 		}
 	}
 
@@ -256,7 +270,6 @@ public class SampleController extends Thread {
 	public void getTotalDuration() {
 		Double totalDuration = mediaPlayer.getTotalDuration().toSeconds();
 		seekBar.setMax(totalDuration);
-		System.out.println(totalDuration);
 	}
 
 	// Format duration into HH:MM:SS format

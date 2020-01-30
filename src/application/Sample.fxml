@@ -32,10 +32,10 @@
     </MenuBar>
       <AnchorPane prefHeight="214.0" prefWidth="337.0">
          <children>
-            <Button fx:id="rewindButton" layoutX="14.0" layoutY="105.0" mnemonicParsing="false" onAction="#prevTrack" onMouseClicked="#prevTrack" prefHeight="47.0" prefWidth="96.0" text="⏮" />
+            <Button fx:id="rewindButton" layoutX="14.0" layoutY="105.0" mnemonicParsing="false" onAction="#prevTrack" prefHeight="47.0" prefWidth="96.0" text="⏮" />
             <Button id="playButton" fx:id="playButton" layoutX="127.0" layoutY="105.0" minWidth="51.0" mnemonicParsing="false" onAction="#playPause" prefHeight="47.0" prefWidth="96.0" text="▶" />
             <Slider id="volumeSlider" fx:id="volumeSlider" layoutX="109.0" layoutY="164.0" onDragDetected="#changeVolume" onDragDone="#changeVolume" prefHeight="24.0" prefWidth="131.0" value="100.0" />
-            <Button fx:id="nextButton" layoutX="240.0" layoutY="105.0" mnemonicParsing="false" onAction="#nextTrack" onMouseClicked="#nextTrack" prefHeight="47.0" prefWidth="96.0" text="⏭" />
+            <Button fx:id="nextButton" layoutX="240.0" layoutY="105.0" mnemonicParsing="false" onAction="#nextTrack" prefHeight="47.0" prefWidth="96.0" text="⏭" />
             <Slider fx:id="seekBar" blockIncrement="1.0" disable="true" layoutX="14.0" layoutY="63.0" onDragDone="#seekBar" prefHeight="24.0" prefWidth="320.0" />
             <Text id="textField" fx:id="textField" layoutX="34.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="281.99999974668026" />
             <ImageView fitHeight="24.0" fitWidth="16.0" layoutX="242.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
