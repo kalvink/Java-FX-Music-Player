@@ -16,6 +16,7 @@ Libaries
 - JavaFX
 
 Tools used
+- Eclipse
 - JavaFX SceneBuilder
 
 Images
