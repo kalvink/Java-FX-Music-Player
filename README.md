@@ -22,6 +22,7 @@ Images
 - Icons from Google material icons
 - Icon from freepik at flaticons.com
 
+<br>
 ![Music Player by Kalvin Kao](https://i.imgur.com/FT6le7h.png)
 
 
