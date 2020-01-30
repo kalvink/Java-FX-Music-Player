@@ -211,8 +211,10 @@ public class SampleController extends Thread {
 
 			mediaPlayer.setOnEndOfMedia(() -> {
 				mediaPlayer.seek(Duration.ZERO);
-				mediaPlayer.pause();
 				playButton.setText("⏵");
+				isPlaying = false;
+				mediaPlayer.stop();
+
 			});
 
 		});
