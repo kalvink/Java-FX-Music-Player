@@ -42,7 +42,7 @@ public class SampleController extends Thread {
 	boolean isPaused = false;
 	boolean loadedSong = false;
 	private Duration duration;
-	Duration startDuration;
+
 	String t;
 	// Add time slider
 	@FXML
@@ -100,7 +100,9 @@ public class SampleController extends Thread {
 			public void run() {
 				System.out.println("Duration: " + mediaPlayer.getTotalDuration());
 				totalDuration.setText(formatDuration(mediaPlayer.getTotalDuration()));
+				getTotalDuration();
 				seekBar();
+
 			}
 		});
 	}
@@ -169,7 +171,7 @@ public class SampleController extends Thread {
 	}
 
 	@FXML
-	public void nextTrack(ActionEvent e) {
+	public void nextTrack() {
 	}
 
 	@FXML
@@ -211,11 +213,16 @@ public class SampleController extends Thread {
 				mediaPlayer.seek(Duration.ZERO);
 				mediaPlayer.pause();
 				playButton.setText("⏵");
-
-
 			});
+
 		});
 
+	}
+
+	public void getTotalDuration() {
+		Double totalDuration = mediaPlayer.getTotalDuration().toSeconds();
+		seekBar.setMax(totalDuration);
+		System.out.println(totalDuration);
 	}
 
 	// Format duration into HH:MM:SS format
@@ -228,7 +235,6 @@ public class SampleController extends Thread {
 
 	@FXML
 	public void playPause(ActionEvent e) {
-
 		if (isPlaying) {
 			playButton.setText("⏵");
 			mediaPlayer.pause();

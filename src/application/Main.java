@@ -1,10 +1,7 @@
 
 package application;
 
-import java.io.File;
-
 import javafx.application.Application;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.scene.Scene;
@@ -13,7 +10,6 @@ import javafx.fxml.FXMLLoader;
 
 public class Main extends Application {
 	public static Window publicStage;
-
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -31,8 +27,6 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 	}
-
-
 
 	public static void main(String[] args) {
 		launch(args);
