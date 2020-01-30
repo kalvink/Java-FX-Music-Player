@@ -43,7 +43,7 @@ public class SampleController extends Thread {
 	boolean loadedSong = false;
 	private Duration duration;
 	Duration startDuration;
-
+	String t;
 	// Add time slider
 	@FXML
 	Slider seekBar;
@@ -85,12 +85,13 @@ public class SampleController extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		seekBar.setDisable(false);
 		mediaPlayer = new MediaPlayer(media);
 		mediaPlayer.setAutoPlay(true);
 		isPlaying = true;
 		loadedSong = true;
 		changeVolume();
-		changePlayBTN();
+		playButton.setText("⏸");
 
 		// display total duration
 		mediaPlayer.setOnReady(new Runnable() {
@@ -99,7 +100,7 @@ public class SampleController extends Thread {
 			public void run() {
 				System.out.println("Duration: " + mediaPlayer.getTotalDuration());
 				totalDuration.setText(formatDuration(mediaPlayer.getTotalDuration()));
-
+				seekBar();
 			}
 		});
 	}
@@ -118,10 +119,6 @@ public class SampleController extends Thread {
 		} catch (Exception ex) {
 		}
 
-	}
-
-	public void changePlayBTN() {
-		playButton.setText("⏸");
 	}
 
 	@FXML
@@ -163,6 +160,7 @@ public class SampleController extends Thread {
 			if (!isPaused) {
 				mediaPlayer.stop();
 				mediaPlayer.play();
+				seekBar();
 			} else if (isPaused) {
 				mediaPlayer.stop();
 			}
@@ -177,10 +175,46 @@ public class SampleController extends Thread {
 	@FXML
 	public void seekBar() {
 
-		duration = mediaPlayer.getCurrentTime();
-		String t = formatDuration(duration);
-		System.out.println(t);
-		currentDuration.setText(t);
+		// Listen to the slider. When it changes, seek with the player.
+		// MediaPlayer.seek does nothing when the player is stopped, so the
+		// play/pause button's handler
+		// always sets the start time to the slider's current value, and then
+		// resets it to 0 after starting the player.
+		InvalidationListener sliderChangeListener = o -> {
+			Duration seekTo = Duration.seconds(seekBar.getValue());
+			mediaPlayer.seek(seekTo);
+		};
+		seekBar.valueProperty().addListener(sliderChangeListener);
+
+		// Link the player's time to the slider
+		mediaPlayer.currentTimeProperty().addListener(l -> {
+			// Temporarily remove the listener on the slider, so it doesn't
+			// respond to the change in playback time
+			// I thought timeSlider.isValueChanging() would be useful for this,
+			// but it seems to get stuck at true
+			// if the user slides the slider instead of just clicking a position
+			// on it.
+			seekBar.valueProperty().removeListener(sliderChangeListener);
+
+			// Keep timeText's text up to date with the slider position.
+			Duration currentTime = mediaPlayer.getCurrentTime();
+			int value = (int) currentTime.toSeconds();
+			seekBar.setValue(value);
+
+			// Re-add the slider listener
+			seekBar.valueProperty().addListener(sliderChangeListener);
+
+			duration = mediaPlayer.getCurrentTime();
+			currentDuration.setText(formatDuration(duration));
+
+			mediaPlayer.setOnEndOfMedia(() -> {
+				mediaPlayer.seek(Duration.ZERO);
+				mediaPlayer.pause();
+				playButton.setText("⏵");
+
+
+			});
+		});
 
 	}
 
