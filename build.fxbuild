@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
 <anttasks:AntTask xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:anttasks="http://org.eclipse.fx.ide.jdt/1.0" buildDirectory="${project}/build">
-  <deploy>
-    <application name="MusicPlayer3"/>
-    <info/>
+  <deploy height="214" placeholderref="1" placeholderid="kmp" width="350">
+    <application name="MusicPlayer3" mainclass="class" version="v1"/>
+    <info title="Kalvin's Music Player" vendor="Kalvin Kao"/>
   </deploy>
-  <signjar/>
+  <signjar alias="kalvinkao" keypass="kalvinkao" keystore="kalvinkao" storepass="kalvinkao"/>
 </anttasks:AntTask>

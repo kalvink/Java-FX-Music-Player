@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="236.0" prefWidth="347.0" style="-fx-background-color: #0077ff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem id="openfile" fx:id="openFile" mnemonicParsing="false" onAction="#openFile" text="Open…" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem id="quit" fx:id="quit" mnemonicParsing="false" onAction="#exitApp" text="Quit" />
+          </items>
+        </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+              <items>
+                <MenuItem id="about" fx:id="about" mnemonicParsing="false" onAction="#openAbout" text="About" />
+              </items>
+            </Menu>
+      </menus>
+    </MenuBar>
+      <AnchorPane prefHeight="214.0" prefWidth="337.0">
+         <children>
+            <Button fx:id="rewindButton" layoutX="14.0" layoutY="105.0" mnemonicParsing="false" onAction="#prevTrack" prefHeight="47.0" prefWidth="96.0" text="⏮" />
+            <Button id="playButton" fx:id="playButton" layoutX="127.0" layoutY="105.0" minWidth="51.0" mnemonicParsing="false" onAction="#playPause" prefHeight="47.0" prefWidth="96.0" text="▶" />
+            <Slider id="volumeSlider" fx:id="volumeSlider" layoutX="109.0" layoutY="164.0" onDragDetected="#changeVolume" onDragDone="#changeVolume" prefHeight="24.0" prefWidth="131.0" value="100.0" />
+            <Button fx:id="nextButton" layoutX="240.0" layoutY="105.0" mnemonicParsing="false" onAction="#nextTrack" prefHeight="47.0" prefWidth="96.0" text="⏭" />
+            <Slider fx:id="seekBar" blockIncrement="1.0" disable="true" layoutX="14.0" layoutY="63.0" onDragDone="#seekBar" prefHeight="24.0" prefWidth="320.0" />
+            <Text id="textField" fx:id="textField" layoutX="34.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="281.99999974668026" />
+            <ImageView fitHeight="24.0" fitWidth="16.0" layoutX="242.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../imgs/baseline_volume_up_black_18dp.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="24.0" fitWidth="16.0" layoutX="94.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../imgs/baseline_volume_mute_black_18dp.png" />
+               </image>
+            </ImageView>
+            <Text fx:id="currentDuration" layoutX="14.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0:00" />
+            <Text fx:id="totalDuration" layoutX="305.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0:00" />
+         </children>
+      </AnchorPane>
+  </children>
+</VBox>
